@@ -11,5 +11,7 @@ namespace Equinox.WebApi.Controllers
     [Route("api/Bitfinex")]
     public class BitfinexController : Controller
     {
+
+
     }
 }

@@ -5,6 +5,11 @@ namespace Equinox.Domain.Events
 {
     public class CustomerRegisteredEvent : Event
     {
+        public CustomerRegisteredEvent()
+        {
+
+        }
+
         public CustomerRegisteredEvent(Guid id, string name, string email, DateTime birthDate)
         {
             Id = id;
