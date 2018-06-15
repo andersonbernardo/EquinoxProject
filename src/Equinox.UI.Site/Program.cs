@@ -1,8 +1,12 @@
-﻿using System.IO;
-using Microsoft.AspNetCore;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore;
 
-namespace Equinox.UI.Site
+namespace Equinox_UI_Site
 {
     public class Program
     {
@@ -12,8 +16,8 @@ namespace Equinox.UI.Site
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .Build();
+           WebHost.CreateDefaultBuilder(args)
+               .UseStartup<Startup>()
+               .Build();
     }
 }

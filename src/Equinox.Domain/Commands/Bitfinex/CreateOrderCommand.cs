@@ -7,19 +7,22 @@ namespace Equinox.Domain.Commands.Bitfinex
 {
     public class CreateOrderCommand : BitfinexCommand
     {
+        public CreateOrderCommand()
+        {
+
+        }
 
         public CreateOrderCommand(OrderBitfinex order)
         {
-            Symbol = order.Symbol;
-            Side = order.Side;
-            Is_hidden = order.Is_hidden;
-            Is_postonly = order.Is_postonly;
-            Ocoorder = order.Ocoorder;
-            Buy_price_oco = order.Buy_price_oco;
-            Amount = order.Amount;
-            Price = order.Price;
-            Sell_price_oco = order.Sell_price_oco;            
-            
+            symbol = order.symbol;
+            side = order.side;
+            is_hidden = order.is_hidden;
+            is_postonly = order.is_postonly;
+            ocoorder = order.ocoorder;
+            buy_price_oco = order.buy_price_oco;
+            amount = order.amount;
+            price = order.price;
+            sell_price_oco = order.sell_price_oco;                        
         }
 
 

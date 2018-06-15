@@ -4,35 +4,75 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
+using System.Linq;
+using Equinox.Infra.CrossCutting.Tools;
+using Equinox.Infra.CrossCutting.Cryptography;
 
 namespace Equinox.Infra.Data.ExternalRepository
 {
+    public class Model
+    {
+        public string nonce { get; set; }
+        public string request { get; set; }
+    }
+
     public class BitfinexRepository : BaseExternalRepository, IBitfinexRepository
     {
-        public BitfinexRepository(string host) : base(host)
+        private const string pathV1 = "/v1/";
+        private const string pathV2 = "/v2/auth/r/";        
+
+        public BitfinexRepository() : base("https://api.bitfinex.com")
         {
 
         }
 
-        public Task<IEnumerable<OrderBitfinex>> GetOrders()
+        public async Task<IEnumerable<OrderBitfinex>> GetOrders()
         {
-            throw new NotImplementedException("GetOrer");
+            var fullUrl = $"{pathV1}orders";
+
+            var model = new Model { request = fullUrl, nonce = new DateTime().UnixTimestamp().ToString() };
+
+            return await PostAsJsonAsync<IEnumerable<OrderBitfinex>, Model>(fullUrl, model, GetAuth(model));
         }
 
-        public Task<OrderBitfinex> CreateOrder(OrderBitfinex order)
+        public async Task<OrderBitfinexResult> CreateOrder(OrderBitfinex order)
         {
-            throw new NotImplementedException("Create order");
+            var fullUrl = $"{pathV1}order/new";
+
+            order.request = fullUrl;
+            order.nonce = new DateTime().UnixTimestamp().ToString();            
+
+            return await PostAsJsonAsync<OrderBitfinexResult, OrderBitfinex>(fullUrl, order, GetAuth(order)).ConfigureAwait(false);
         }
 
 
-        //private Dictionary<string, string> GetAuth()
-        //{
-        //    return new Dictionary<string, string>
-        //    {
-        //        { "key", _keyApi },
-        //        { "nonce", _nonce },
-        //        { "signature", CriptographyHelper.CreateTokenHMACSHA256(_message,_secretKey) }
-        //    };
-        //}
+        public async Task<CancelOrderBitfinex> CancelOrder(CancelOrderBitfinex order)
+        {
+            var fullUrl = $"{pathV1}order/cancel";
+            order.request = fullUrl;
+            order.nonce = new DateTime().UnixTimestamp().ToString();
+
+            
+
+            return await PostAsJsonAsync<CancelOrderBitfinex, CancelOrderBitfinex>(fullUrl, order, GetAuth(order)).ConfigureAwait(false);
+        }
+
+        private Dictionary<string, string> GetAuth(object model)
+        {
+
+            // key tudo liberado a9LaadvTMf7V58kj2mdIcz9yYUiXoft6dCqSoYBNxOw
+            // secret FClLgz8REZWBAm29iZDxKsg8P62XCCpRsW92aNChrvb
+
+            var payload = Base64.Encode(Json.Serialize(model));
+
+            return new Dictionary<string, string>
+            {
+                { "X-BFX-SIGNATURE", Hmac384.Create(payload, "FClLgz8REZWBAm29iZDxKsg8P62XCCpRsW92aNChrvb") },
+                { "X-BFX-PAYLOAD", payload },
+                { "X-BFX-APIKEY", "a9LaadvTMf7V58kj2mdIcz9yYUiXoft6dCqSoYBNxOw" }
+           };
+        }
+        
     }
 }

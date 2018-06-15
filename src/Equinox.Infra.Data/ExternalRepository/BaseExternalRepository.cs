@@ -6,6 +6,7 @@ using System.Text;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System.Net.Http.Headers;
+using Equinox.Infra.CrossCutting.Tools;
 
 namespace Equinox.Infra.Data.ExternalRepository
 {
@@ -23,7 +24,6 @@ namespace Equinox.Infra.Data.ExternalRepository
         {
             throw new NotImplementedException();
         }
-
 
         /// <summary>
         /// Post com parametros enviado pela url
@@ -68,7 +68,7 @@ namespace Equinox.Infra.Data.ExternalRepository
         {
             using (var _client = CreateClientWithHearders(url, _host, headers))
             {
-                string stringData = JsonConvert.SerializeObject(parametros);
+                string stringData = Json.Serialize(parametros);
                 var contentData = new StringContent(stringData, System.Text.Encoding.UTF8, "application/json");
                 var req = await _client.PostAsync(url, contentData).ConfigureAwait(false);
                 return await TratarRequisicao<TEntity>(req);
@@ -99,9 +99,7 @@ namespace Equinox.Infra.Data.ExternalRepository
             var client = new HttpClient();
             client.BaseAddress = new Uri(host);
             client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            var _UserAgent = "d-fens HttpClient";
-            client.DefaultRequestHeaders.Add("User-Agent", _UserAgent);
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));         
 
             foreach (var value in headers)
             {

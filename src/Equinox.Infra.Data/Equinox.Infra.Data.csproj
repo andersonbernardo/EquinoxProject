@@ -12,6 +12,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Equinox.Domain\Equinox.Domain.csproj" />
+    <ProjectReference Include="..\Equinox.Infra.CrossCutting.Cryptography\Equinox.Infra.CrossCutting.Cryptography.csproj" />
+    <ProjectReference Include="..\Equinox.Infra.CrossCutting.Tools\Equinox.Infra.CrossCutting.Tools.csproj" />
   </ItemGroup>
 
   <ItemGroup>

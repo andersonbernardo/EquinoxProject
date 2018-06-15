@@ -1,0 +1,31 @@
+﻿<form [formGroup]="form" >
+    <div class="form-check">
+        <input type="radio" name="exchangeOrMargin" class="form-check-input" (click)="changeExchange()"  [ngModelOptions]="{standalone: true}"  [(ngModel)]="exchangeOrMargin"  value="exchange" id="exchange">
+        <label class="form-check-label" for="exchange">Exchange</label>
+        <input type="radio" name="exchangeOrMargin" class="form-check-input" (click)="changeMargin()" [ngModelOptions]="{standalone: true}"  [(ngModel)]="exchangeOrMargin" value="margin" id="margin">
+        <label class="form-check-label" for="margin">Margin</label>        
+    </div>   
+    <div class="form-group">        
+        <select name="tipoOrdem" class="form-control form-control-sm">
+            <option *ngFor="let type of types" [value]="type.value">
+                    {{ type.viewValue }} 
+            </option>
+        </select>                  
+    </div>
+    <div class="form-group">   
+        <input type="text" class="form-control" [class.error]="isFieldValid('price')" formControlName="price" placeholder="Preço" aria-label="Preço" required>           
+    </div>    
+    <div class="form-group">             
+        <input type="text" class="form-control" formControlName="amount" [class.error]="isFieldValid('amount')" placeholder="Quantidade" aria-label="Quantidade" >                          
+    </div>
+    <div class="form-check">
+        <input type="checkbox" name="oco" class="form-check-input" value="oco" id="oco">
+        <label class="form-check-label" for="oco">OCO</label>
+        <input type="checkbox" name="hidden" formControlName="is_hidden" class="form-check-input" value="hidden" id="hidden">
+        <label class="form-check-label" for="margin">HIDDEN</label>
+        <input type="checkbox" name="post-only" class="form-check-input" value="post-only" id="post-only">
+        <label class="form-check-label" for="post-only">POST ONLY</label>  
+    </div>    
+    <button type="button" #botaoBuy class="btn btn-success" (click)="onBuy(form.value, form.valid)">Exchange Comprar</button>
+    <button type="button" #botaoSell class="btn btn-danger">Exchange Vender</button>    
+</form>

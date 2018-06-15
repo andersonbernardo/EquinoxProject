@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:52346/",
+      "applicationUrl": "http://localhost:56617/",
       "sslPort": 0
     }
   },
@@ -18,10 +18,10 @@
     "Equinox.UI.Site": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "applicationUrl": "http://localhost:56618/"
     }
   }
 }

@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Equinox.Domain.Interfaces
 {
-    public interface IBitfinexRepository : IBaseExternalRepository
+    public interface IBitfinexRepository
     {
-        Task<OrderBitfinex> CreateOrder(OrderBitfinex order);
+        Task<OrderBitfinexResult> CreateOrder(OrderBitfinex order);
+        Task<CancelOrderBitfinex> CancelOrder(CancelOrderBitfinex order);
+        Task<IEnumerable<OrderBitfinex>> GetOrders();
     }
 }
