@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "stage": "magittrade",
+    "default": "magittrade"
+  }
+}
